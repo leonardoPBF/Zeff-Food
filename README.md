@@ -19,7 +19,7 @@ Descripcion: empresa ecommers de comida rapida
 
 *guia para editar con formatos el archivo md (Readme):https://programminghistorian.org/es/lecciones/introduccion-a-markdown*
 
-# DESARROLLO PROYECTO
+# Comandos basicos para el proyecto
 
 ## Comandos git (Inicializacion del proyecto):
 ```
@@ -45,6 +45,8 @@ git commit -m "Nueva entidad"
 git push origin modelos
 ```
 
+# Desarrollo del proyecto
+
 ## NuGet Gallery de la aplicacion 
 ```
 > dotnet add package Microsoft.EntityFrameworkCore
@@ -55,29 +57,36 @@ git push origin modelos
 > dotnet add package Microsoft.EntityFrameworkCore.Sqlite \\SQLite
 ```
 
+## Pasos creacion de modelo y coneccion de base de datos
+
 1. Creacion carpeta Modelos-Entidades(mapeamos los modelos)
+
 2. Creacion carpeta Data -> ApplicationDbContext
+
 3. Configuracion conectionString en appsettings.json
 ```
+
    "ConnectionStrings": {
     "DefaultConnection": "DataSource=zeff_food.db;Cache=Shared", //para base de datos SQLite
-    "PostgresSQLConnection": "host=localhost; port=5432; Database=Zeff_Food; Username=postgres; password=Zx123Leo"
+    "PostgresSQLConnection": "host=localhost; port=5432; Database=Zeff_Food; Username=postgres; password=******"
   }
 ```
-4. Configuracion program
+
+4. Configuracion program.cs
 ```
     //Para poder utilizar los modelos en la base de datos
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
-    //para utilizar base de datos de Postgrest
-    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresSQLConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found.")));
-    
-    //para utilizar base de datos de VScode
-    /* options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found."))); */
+        //para utilizar base de datos de Postgrest
+        options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresSQLConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found.")));
+        
+        opcion 2;
+        //para utilizar base de datos de VScode-Sqlite
+        /* options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found."))); */
     
 ```
 
-5. Ejecutamos los siguientes comandos para poder generar las migraciones de la base de datos, para luego actualizarla:
+5. Ejecutamos los siguientes comandos para poder generar las migraciones de la base de datos, para luego actualizar la base de datos seleccionada:
 ```
 > dotnet ef migrations add "initial_migration" 
 > dotnet ef database update
