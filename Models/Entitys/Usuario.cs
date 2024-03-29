@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,6 +28,6 @@ namespace Zeff_Food.Models.Entitys
         [Column("Total_gastado")]
         public decimal TotalGastado { get; set; }
 
-        public List<U> HistorialPedidos { get; set; }
+        //public List<> HistorialPedidos { get; set; }
     }
 }
