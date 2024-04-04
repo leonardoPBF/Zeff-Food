@@ -7,6 +7,10 @@ Descripcion: empresa ecommers de comida rapida
 * Base de datos postgrest v.16.2.
 * pgAdmin v.8.4..
 
+### Extensiones:
+-> https://marketplace.visualstudio.com/items?itemName=doggy8088.netcore-extension-pack&ssr=false#review-details
+
+
 ## Manejo de entidades:
 
 - Usuario (Nombre, email, numero celular, año de nacimiento, total gastado, Historial pedidos, Fecha creacion de cuenta)
