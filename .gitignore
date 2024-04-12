@@ -1,3 +1,20 @@
+# Carpetas que deben ser ignoradas
 bin/
 obj/
 .vscode/ 
+packages/
+
+# Puede contener base de datos que se utilizan localmente
+App_Data/
+
+# configuración específicos del usuario 
+*.suo
+*.user
+*.userprefs
+
+# Archivos temporales o de respaldo
+*.bak
+*.tmp
+*.log
+
+
