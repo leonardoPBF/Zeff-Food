@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Zeff_Food.Data.Migrations
+namespace Zeff_Food.Data.Migrations.Identity
 {
     /// <inheritdoc />
     public partial class Identity : Migration
@@ -31,6 +31,11 @@ namespace Zeff_Food.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
+                    Nombre = table.Column<string>(type: "text", nullable: true),
+                    Contraseña = table.Column<string>(type: "text", nullable: true),
+                    Fecha_de_nacimiento = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Fecha_creacion_cuenta = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Total_gastado = table.Column<decimal>(type: "numeric", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -49,26 +54,6 @@ namespace Zeff_Food.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Usuario",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nombre = table.Column<string>(type: "text", nullable: true),
-                    Ape = table.Column<string>(type: "text", nullable: true),
-                    Contraseña = table.Column<string>(type: "text", nullable: true),
-                    Email = table.Column<string>(type: "text", nullable: true),
-                    Celular = table.Column<string>(type: "text", nullable: true),
-                    Fecha_de_nacimiento = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Fecha_creacion_cuenta = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Total_gastado = table.Column<decimal>(type: "numeric", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Usuario", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -232,9 +217,6 @@ namespace Zeff_Food.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "Usuario");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -7,28 +7,25 @@ using System.ComponentModel.DataAnnotations;
 
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace Zeff_Food.Models.Entitys
 {
-    public class Usuario
+    public class Usuario : IdentityUser
     {
-        [Key]       
-        public int Id { get; set; }
+        // [Key]       
+        // public int Id { get; set; }
 
         [Column("Nombre")]
         public string? Nombre { get; set; }
-
-        
-        [Column("Ape")]
-        public string? Ape { get; set; }
        
         [Column("Contraseña")]
         public string? password { get; set; }
 
-        public string? Email { get; set; }
+        // public string? Email { get; set; }
 
-        [Column("Celular")]
-        public string? Celular { get; set; }
+        // [Column("Celular")]
+        // public string? Celular { get; set; }
 
         [Column("Fecha_de_nacimiento")]
         public DateTime FechaNacimiento { get; set; }
@@ -38,7 +35,8 @@ namespace Zeff_Food.Models.Entitys
 
         [Column("Total_gastado")]
         public decimal TotalGastado { get; set; }
-
-        //public List<> HistorialPedidos { get; set; }
+        
+        [Column("Historial_pedidos")]
+        public List<Factura>? Facturas { get; set; }
     }
 }

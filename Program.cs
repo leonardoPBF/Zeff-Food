@@ -26,19 +26,19 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
-// //Para poder utilizar los modelos en la base de datos
+ //Para poder utilizar los modelos en la base de datos
 // builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
-//     //para utilizar base de datos de Postgrest
+//para utilizar base de datos de Postgrest
 //     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresSQLConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found.")));
 
-// //para utilizar base de datos de VScode
-// //options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found."))); 
+//para utilizar base de datos de VScode
+//options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found."))); 
 
 var connectionstring = builder.Configuration.GetConnectionString("PostgresSQLConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseNpgsql(connectionstring));
-builder.Services.AddDbContext<ApplicationDbContext2>(
+builder.Services.AddDbContext<ApplicationDbContextIdentity>(
     options => options.UseNpgsql(connectionstring));
 
 

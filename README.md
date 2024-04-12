@@ -156,7 +156,19 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 ### Actualizar migraciones y base de datos
 ```
+//Contexto de base de datos 1
 > dotnet ef migrations add "Identity" --context ApplicationDbContext -o "D:\Leonardo\Universidad\ciclo_7\proyecto zeff food\Zeff-Food\Data\Migrations"
 > dotnet ef database update --context ApplicationDbContext
 
+//Contexto de base de datos 2
+> dotnet ef migrations add "Identity" --context ApplicationDbContextIdentity -o "D:\Leonardo\Universidad\ciclo_7\proyecto zeff food\Zeff-Food\Data\Migrations"
+
+> dotnet ef database update --context ApplicationDbContextIdentity
+
+// para eliminar al actualizaciones de base de datos con especificacion de contexto
+
+> dotnet ef database update 0
+
 ```
+
+
