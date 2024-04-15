@@ -17,6 +17,20 @@ namespace Zeff_Food.Data
         {
         }
 
+      
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            
+            //configuracion para poder manejar horario UTC
+            var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+            var connectionString = configuration.GetConnectionString("PostgresSQLConnection");
+             optionsBuilder.UseNpgsql(connectionString, o => o.UseNodaTime());
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
     }
   
 }

@@ -4,7 +4,7 @@ using Zeff_Food.Data;
 
 //uso de identity
 using Microsoft.AspNetCore.Identity;
-
+using Zeff_Food.Models.Entitys;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,28 +22,29 @@ builder.Services.AddSession(options =>
 });
 
 //Implementacion Identity
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    var connectionstring = builder.Configuration.GetConnectionString("PostgresSQLConnection");
+    //builder para entidades de negocio
+    builder.Services.AddDbContext<ApplicationDbContext>(
+        options => options.UseNpgsql(connectionstring));
+    //builder para ASP.identity
+    builder.Services.AddDbContext<ApplicationDbContextIdentity>(
+        options => options.UseNpgsql(connectionstring));
 
+    //builder para aumentar variables a nuestro ASP.net.user
+    builder.Services.AddDefaultIdentity<Usuario>(options => options.SignIn.RequireConfirmedAccount = true)
+        .AddEntityFrameworkStores<ApplicationDbContextIdentity>();
+//<------>
 
- //Para poder utilizar los modelos en la base de datos
+//Para poder utilizar los modelos en la base de datos
 // builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 //para utilizar base de datos de Postgrest
 //     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresSQLConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found.")));
 
-//para utilizar base de datos de VScode
+//para utilizar base de datos de SQLite
 //options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found."))); 
 
-var connectionstring = builder.Configuration.GetConnectionString("PostgresSQLConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(
-    options => options.UseNpgsql(connectionstring));
-builder.Services.AddDbContext<ApplicationDbContextIdentity>(
-    options => options.UseNpgsql(connectionstring));
-
-
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 
 var app = builder.Build();
 

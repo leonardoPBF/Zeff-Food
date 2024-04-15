@@ -107,6 +107,10 @@ Sistema de autenticación y autorización robusto y flexible.
 > dotnet add package Microsoft.AspNetCore.Identity.UI
 > dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
 
+//para el manejo de horarios UTC
+> dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime 
+> dotnet add package Microsoft.Extensions.Configuration
+
 ```
 
 ### Codegenerator Identity
@@ -157,7 +161,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 ### Actualizar migraciones y base de datos
 ```
 //Contexto de base de datos 1
-> dotnet ef migrations add "Identity" --context ApplicationDbContext -o "D:\Leonardo\Universidad\ciclo_7\proyecto zeff food\Zeff-Food\Data\Migrations"
+> dotnet ef migrations add "Business" --context ApplicationDbContext -o "D:\Leonardo\Universidad\ciclo_7\proyecto zeff food\Zeff-Food\Data\Migrations\Business"
 > dotnet ef database update --context ApplicationDbContext
 
 //Contexto de base de datos 2
