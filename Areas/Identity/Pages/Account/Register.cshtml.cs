@@ -79,11 +79,11 @@ namespace Zeff_Food.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
-
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            /// 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
@@ -98,6 +98,17 @@ namespace Zeff_Food.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]        
+            [StringLength(12, MinimumLength = 3, ErrorMessage = "El {0} debe ser al menos {2} y como máximo {1} caracteres de longitud.")]
+            [Display(Name = "Nombre")]
+            public string Nombre { get; set; }
+
+            [Required]        
+            [DataType(DataType.Date)]  
+            [Display(Name = "Fecha_nacimiento")]
+          
+            public DateTime FechaNacimiento { get; set; }
         }
 
 
@@ -113,11 +124,13 @@ namespace Zeff_Food.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                // var user = CreateUser();
+                // await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);             
+                // await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                var user = new Usuario { UserName = Input.Email, Nombre=Input.Nombre ,Email = Input.Email, FechaNacimiento = Input.FechaNacimiento };      
                 var result = await _userManager.CreateAsync(user, Input.Password);
+            
 
                 if (result.Succeeded)
                 {

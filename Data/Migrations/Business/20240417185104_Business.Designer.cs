@@ -12,7 +12,7 @@ using Zeff_Food.Data;
 namespace Zeff_Food.Data.Migrations.Business
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240415171040_Business")]
+    [Migration("20240417185104_Business")]
     partial class Business
     {
         /// <inheritdoc />
@@ -168,10 +168,6 @@ namespace Zeff_Food.Data.Migrations.Business
 
                     b.Property<string>("UserName")
                         .HasColumnType("text");
-
-                    b.Property<string>("password")
-                        .HasColumnType("text")
-                        .HasColumnName("Contraseña");
 
                     b.HasKey("Id");
 

@@ -18,14 +18,6 @@ namespace Zeff_Food.Models.Entitys
 
         [Column("Nombre")]
         public string? Nombre { get; set; }
-       
-        [Column("Contraseña")]
-        public string? password { get; set; }
-
-        // public string? Email { get; set; }
-
-        // [Column("Celular")]
-        // public string? Celular { get; set; }
 
         [Column("Fecha_de_nacimiento")]
         public DateTime FechaNacimiento { get; set; }

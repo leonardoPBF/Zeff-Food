@@ -32,9 +32,8 @@ namespace Zeff_Food.Data.Migrations.Identity
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Nombre = table.Column<string>(type: "text", nullable: true),
-                    Contraseña = table.Column<string>(type: "text", nullable: true),
-                    Fecha_de_nacimiento = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Fecha_creacion_cuenta = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Fecha_de_nacimiento = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Fecha_creacion_cuenta = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Total_gastado = table.Column<decimal>(type: "numeric", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -54,6 +53,21 @@ namespace Zeff_Food.Data.Migrations.Identity
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Producto",
+                columns: table => new
+                {
+                    ProductoId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nombre = table.Column<string>(type: "text", nullable: true),
+                    Precio = table.Column<decimal>(type: "numeric", nullable: false),
+                    Descripcion = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Producto", x => x.ProductoId);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,6 +176,56 @@ namespace Zeff_Food.Data.Migrations.Identity
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Factura",
+                columns: table => new
+                {
+                    FacturaId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Fecha = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    MontoTotal = table.Column<decimal>(type: "numeric", nullable: false),
+                    Descripcion = table.Column<string>(type: "text", nullable: true),
+                    UsuarioId = table.Column<int>(type: "integer", nullable: false),
+                    UsuarioId1 = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Factura", x => x.FacturaId);
+                    table.ForeignKey(
+                        name: "FK_Factura_AspNetUsers_UsuarioId1",
+                        column: x => x.UsuarioId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemFactura",
+                columns: table => new
+                {
+                    ItemFacturaId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FacturaId = table.Column<int>(type: "integer", nullable: false),
+                    ProductoId = table.Column<int>(type: "integer", nullable: false),
+                    Descripcion = table.Column<string>(type: "text", nullable: true),
+                    Cantidad = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemFactura", x => x.ItemFacturaId);
+                    table.ForeignKey(
+                        name: "FK_ItemFactura_Factura_FacturaId",
+                        column: x => x.FacturaId,
+                        principalTable: "Factura",
+                        principalColumn: "FacturaId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemFactura_Producto_ProductoId",
+                        column: x => x.ProductoId,
+                        principalTable: "Producto",
+                        principalColumn: "ProductoId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -198,6 +262,21 @@ namespace Zeff_Food.Data.Migrations.Identity
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Factura_UsuarioId1",
+                table: "Factura",
+                column: "UsuarioId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemFactura_FacturaId",
+                table: "ItemFactura",
+                column: "FacturaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemFactura_ProductoId",
+                table: "ItemFactura",
+                column: "ProductoId");
         }
 
         /// <inheritdoc />
@@ -219,7 +298,16 @@ namespace Zeff_Food.Data.Migrations.Identity
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ItemFactura");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Factura");
+
+            migrationBuilder.DropTable(
+                name: "Producto");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

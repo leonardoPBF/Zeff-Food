@@ -33,7 +33,6 @@ namespace Zeff_Food.Data.Migrations.Business
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Nombre = table.Column<string>(type: "text", nullable: true),
-                    Contraseña = table.Column<string>(type: "text", nullable: true),
                     Fecha_de_nacimiento = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Fecha_creacion_cuenta = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Total_gastado = table.Column<decimal>(type: "numeric", nullable: false),

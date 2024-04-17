@@ -166,10 +166,6 @@ namespace Zeff_Food.Data.Migrations.Business
                     b.Property<string>("UserName")
                         .HasColumnType("text");
 
-                    b.Property<string>("password")
-                        .HasColumnType("text")
-                        .HasColumnName("Contraseña");
-
                     b.HasKey("Id");
 
                     b.ToTable("Usuario");

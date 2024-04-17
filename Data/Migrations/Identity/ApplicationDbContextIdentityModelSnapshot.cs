@@ -158,6 +158,87 @@ namespace Zeff_Food.Data.Migrations.Identity
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Zeff_Food.Models.Entitys.Factura", b =>
+                {
+                    b.Property<int>("FacturaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FacturaId"));
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<decimal>("MontoTotal")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UsuarioId1")
+                        .HasColumnType("text");
+
+                    b.HasKey("FacturaId");
+
+                    b.HasIndex("UsuarioId1");
+
+                    b.ToTable("Factura");
+                });
+
+            modelBuilder.Entity("Zeff_Food.Models.Entitys.ItemFactura", b =>
+                {
+                    b.Property<int>("ItemFacturaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ItemFacturaId"));
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("text");
+
+                    b.Property<int>("FacturaId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ItemFacturaId");
+
+                    b.HasIndex("FacturaId");
+
+                    b.HasIndex("ProductoId");
+
+                    b.ToTable("ItemFactura");
+                });
+
+            modelBuilder.Entity("Zeff_Food.Models.Entitys.Producto", b =>
+                {
+                    b.Property<int>("ProductoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductoId"));
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Precio")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("ProductoId");
+
+                    b.ToTable("Producto");
+                });
+
             modelBuilder.Entity("Zeff_Food.Models.Entitys.Usuario", b =>
                 {
                     b.Property<string>("Id")
@@ -178,11 +259,11 @@ namespace Zeff_Food.Data.Migrations.Identity
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("Fecha_creacion_cuenta");
 
                     b.Property<DateTime>("FechaNacimiento")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("Fecha_de_nacimiento");
 
                     b.Property<bool>("LockoutEnabled")
@@ -225,10 +306,6 @@ namespace Zeff_Food.Data.Migrations.Identity
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
-
-                    b.Property<string>("password")
-                        .HasColumnType("text")
-                        .HasColumnName("Contraseña");
 
                     b.HasKey("Id");
 
@@ -291,6 +368,44 @@ namespace Zeff_Food.Data.Migrations.Identity
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Zeff_Food.Models.Entitys.Factura", b =>
+                {
+                    b.HasOne("Zeff_Food.Models.Entitys.Usuario", "Usuario")
+                        .WithMany("Facturas")
+                        .HasForeignKey("UsuarioId1");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Zeff_Food.Models.Entitys.ItemFactura", b =>
+                {
+                    b.HasOne("Zeff_Food.Models.Entitys.Factura", "Factura")
+                        .WithMany("Items")
+                        .HasForeignKey("FacturaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Zeff_Food.Models.Entitys.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Factura");
+
+                    b.Navigation("Producto");
+                });
+
+            modelBuilder.Entity("Zeff_Food.Models.Entitys.Factura", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Zeff_Food.Models.Entitys.Usuario", b =>
+                {
+                    b.Navigation("Facturas");
                 });
 #pragma warning restore 612, 618
         }

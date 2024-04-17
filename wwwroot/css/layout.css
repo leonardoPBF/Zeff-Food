@@ -241,6 +241,11 @@ header .icons #menu-bars{
     line-height: 1.5;
 }
 
+.swiper-horizontal>.swiper-pagination-bullets,.swiper-pagination-bullets.swiper-pagination-horizontal,.swiper-pagination-custom,.swiper-pagination-fraction {
+    bottom: var(--swiper-pagination-bottom)!important;
+ 
+}
+
 .swiper-pagination-bullet-active{
     background:var(--green);
 }
