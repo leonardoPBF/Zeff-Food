@@ -16,7 +16,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
@@ -32,6 +32,7 @@ builder.Services.AddSession(options =>
 
     //builder para aumentar variables a nuestro ASP.net.user
     builder.Services.AddDefaultIdentity<Usuario>(options => options.SignIn.RequireConfirmedAccount = true)
+        .AddRoles<IdentityRole>()  
         .AddEntityFrameworkStores<ApplicationDbContextIdentity>();
 //<------>
 
@@ -61,8 +62,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseSession();
 
@@ -70,4 +71,41 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+    //configuracion de roles
+    using (var scope = app.Services.CreateScope())
+    {
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+        string[] roleNames = { "Admin", "User", "Employee" };
+        foreach (var roleName in roleNames)
+        {
+            var roleExist = await roleManager.RoleExistsAsync(roleName);
+            if (!roleExist)
+            {
+                await roleManager.CreateAsync(new IdentityRole(roleName));
+            }
+        }
+    }
+
+    //configuracion admin
+    using (var scope = app.Services.CreateScope())
+    {
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Usuario>>();  
+
+        string email = "admin@admin.com";  
+        string password = "Test1234,";  
+
+        if(await userManager.FindByEmailAsync(email) == null)  
+        {  
+            var user = new Usuario();  
+            user.UserName = email;  
+            user.Email = email ; 
+            user.EmailConfirmed = true;             
+            await userManager.CreateAsync(user, password);  
+            await userManager.AddToRoleAsync(user, "Admin");          
+        }
+    }
+
+
 app.Run();

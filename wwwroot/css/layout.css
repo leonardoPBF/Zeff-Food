@@ -64,6 +64,22 @@ section:nth-child(even){
     letter-spacing: .1rem;
 }
 
+.btn-lo { 
+    display: inline-block;
+    font-size: 1.7rem;
+    color:#fff;   
+    align-items: center;
+    background-color: #20c9ac;
+    border-radius: .5rem;
+    cursor: pointer;
+    padding:.5rem 2rem;
+}  
+
+.btn-lo:hover{
+    color: #000000 !important;
+    background: var(--white);
+}
+
 header{
     position: sticky;
     top:0; left: 0; right:0;
@@ -684,6 +700,13 @@ header .icons #menu-bars{
         margin:1rem;
         font-size: 2rem;            
     }
+
+    .btn-lo { 
+        margin-top: 10px;
+        font-size: 1.9rem;
+        color:#fff;   
+        align-items: center;
+    } 
 
     #search-form #search-box{
         width:90%;
