@@ -1,0 +1,42 @@
+body{
+    background-image: url('/images/background.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.container{
+    margin-top:20px;
+
+}
+
+hr:not([size]) {
+    height: 3px;
+}
+.nav-item{
+    font-size: 1.9rem;
+}
+
+.manage{
+    color: black !important;
+}
+
+.manage:hover{
+    background-color: #20c9ac;
+}
+
+h3{
+    font-size: 1.8rem;
+}
+
+.form-control{
+    font-size: 1.6rem;
+}
+.form-floating>.form-control:focus, .form-floating>.form-control:not(:placeholder-shown){
+    padding-top: 2.4rem;
+    padding-bottom: 0.625rem;
+    height: auto;
+}
+
+label {
+    font-size: 14px; /* Tamaño del texto */
+}
