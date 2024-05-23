@@ -5,6 +5,14 @@ using Zeff_Food.Data;
 //uso de identity
 using Microsoft.AspNetCore.Identity;
 using Zeff_Food.Models.Entitys;
+using Zeff_Food.Models;
+
+//para Emailsender
+using Zeff_Food.Service.Interfaces;
+using Zeff_Food.Service.classes;
+
+//api
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,17 +44,49 @@ builder.Services.AddSession(options =>
         .AddEntityFrameworkStores<ApplicationDbContextIdentity>();
 //<------>
 
-//Para poder utilizar los modelos en la base de datos
-// builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
-//para utilizar base de datos de Postgrest
-//     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresSQLConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found.")));
+//Implementacion EmailSender
+   
+    builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-//para utilizar base de datos de SQLite
-//options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContext' not found."))); 
+    // Configurar variables de entorno para sobreescribir las credenciales
+    builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+  
+    builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAllOrigins",
+            builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
+            });
+    });
+//<------>
+
+
+// Configuración de Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "My API",
+        Version = "v1",
+        Description = "API for Zeff Food",
+        Contact = new OpenApiContact
+        {
+            Name = "Zeff Food Support",
+            Email = "support@zefffood.com",
+            Url = new Uri("https://zefffood.com/contact")
+        }
+    });
+});
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -60,12 +100,20 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseCors("AllowAllOrigins");
+
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+});
 
 app.MapControllerRoute(
     name: "default",

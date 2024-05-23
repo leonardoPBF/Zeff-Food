@@ -171,8 +171,14 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 // para eliminar al actualizaciones de base de datos con especificacion de contexto
 
-> dotnet ef database update 0
+> dotnet ef database update 0 --context ApplicationDbContextIdentity
+> dotnet ef database update 0 --context ApplicationDbContext
 
 ```
 
 
+### EmailSender
+para colocar contraseñas ocultas
+
+setx SMTP_USERNAME leonardobf140224@gmail.com
+setx SMTP_PASSWORD siub ljjp ield ruzp
